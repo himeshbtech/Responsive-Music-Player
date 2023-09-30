@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="style.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css"
+      integrity="sha512-z3gLpd7yknf1YoNbCzqRKc4qyor8gaKU1qmn+CShxbuBusANI9QpRohGBreCFkKxLhei6S9CQXFEbbKuqLg0DA=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    />
+    <title>Responsive music player</title>
+  </head>
+  <body>
+    <h1><b>Responsive</b> <i>music player</i></h1>
+    <!--<h1><b>Responsive</b> music player</h1>-->
+
+    <div class="container">
+      <nav>
+        <div class="circle">
+          <i class="fa-solid fa-angle-left"></i>
+        </div>
+        <div class="circle">
+          <i class="fa-solid fa-bars"></i>
+        </div>
+      </nav>
+
+      <img src="image/img-1.jpg" class="song_image" alt="image" />
+
+      <div class="music_content">
+        <h2 id="title">Mi Amor</h2>
+        <h3 id="artist">Sharn</h3>
+      </div>
+
+      <audio src="music/song-1.mp3"></audio>
+      <audio src="music/song-2.mp3"></audio>
+      <audio src="music/song-3.mp3"></audio>
+
+      <div class="controls">
+        <i class="fa-solid fa-angles-left" id="prev" title="previous"></i>
+        <i class="fa-solid fa-play" id="play" title="play"></i>
+        <i class="fa-solid fa-angles-right" id="next" title="next"></i>
+      </div>
+    </div>
+
+    <script>
+      const music = document.querySelector("audio");
+      const img = document.querySelector("img");
+      const play = document.getElementById("play");
+      const artist = document.getElementById("artist");
+      const title = document.getElementById("title");
+      const previous = document.getElementById("prev");
+      const next = document.getElementById("next");
+
+      const songs = [
+        {
+          name: "song-1",
+          title: "Mi Amor",
+          artist: "sharn",
+        },
+        {
+          name: "song-2",
+          title: "Night Changes",
+          artist: "One direction",
+        },
+        {
+          name: "song-3",
+          title: "Industry baby",
+          artist: "Lil Nas X",
+        },
+      ];
+
+      let isPlaying = false;
+
+      /*for play function*/
+      const playmusic = () => {
+        isPlaying = true;
+        music.play();
+        play.classList.replace("fa-play", "fa-pause");
+        img.classList.add("anime");
+      };
+
+      /*for pause function*/
+      const pausemusic = () => {
+        isPlaying = false;
+        music.pause();
+        play.classList.replace("fa-pause", "fa-play");
+        img.classList.remove("anime");
+      };
+
+      play.addEventListener("click", () => {
+        if (isPlaying) {
+          pausemusic();
+        } else {
+          playmusic();
+        }
+      });
+
+      //change the music data
+      const loadSong = (songs) => {
+        title.textContent = songs.title;
+        artist.textContent = songs.artist;
+        music.src = "music/" + songs.name + ".mp3";
+        img.src = "image/" + songs.name + ".jpg";
+      };
+
+      songIndex = 0;
+
+      const nextSong = () => {
+        songIndex = (songIndex + 1) % songs.length;
+        loadSong(songs[songIndex]);
+        playmusic();
+      };
+
+      const prevSong = () => {
+        songIndex = (songIndex - 1 + songs.length) % songs.length;
+        loadSong(songs[songIndex]);
+        playmusic();
+      };
+      next.addEventListener("click", nextSong);
+      prev.addEventListener("click", prevSong);
+    </script>
+  </body>
+</html>
